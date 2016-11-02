@@ -6,11 +6,11 @@
     android:paddingEnd="0dp"
     android:paddingStart="8dp"
     android:paddingTop="16dp"
-    tools:context=".MainActivity$ForecastFragment">
+    tools:context=".ForecastFragment">
 
     <ListView
         android:id="@+id/listview_forecast"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </FrameLayout>
