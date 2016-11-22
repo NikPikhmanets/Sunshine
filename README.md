@@ -1,2 +1,2 @@
 # Sunshine
-first lesson
+Udacity lessons (GeekHub)
