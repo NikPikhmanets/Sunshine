@@ -57,7 +57,7 @@ public class WeatherContract {
         static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_WEATHER;
 
-        static final String TABLE_NAME = "weather";
+        public static final String TABLE_NAME = "weather";
         public static final String COLUMN_LOC_KEY = "location_id";
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_WEATHER_ID = "weather_id";
@@ -84,7 +84,7 @@ public class WeatherContract {
                     .appendQueryParameter(COLUMN_DATE, Long.toString(normalizedDate)).build();
         }
 
-        static Uri buildWeatherLocationWithDate(String locationSetting, long date) {
+        public static Uri buildWeatherLocationWithDate(String locationSetting, long date) {
             return CONTENT_URI.buildUpon().appendPath(locationSetting)
                     .appendPath(Long.toString(normalizeDate(date))).build();
         }
