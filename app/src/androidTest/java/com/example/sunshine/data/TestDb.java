@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.example.sunshine.data;
 
 import android.content.ContentValues;
@@ -24,9 +9,10 @@ import java.util.HashSet;
 
 public class TestDb extends AndroidTestCase {
 
-    public static final String LOG_TAG = TestDb.class.getSimpleName();
+//    public static final String LOG_TAG = TestDb.class.getSimpleName();
 
-    void deleteTheDatabase() {
+    // Каждый тест начинается с чистого листа
+    private void deleteTheDatabase() {
         mContext.deleteDatabase(WeatherDbHelper.DATABASE_NAME);
     }
 
@@ -46,11 +32,13 @@ public class TestDb extends AndroidTestCase {
                 this.mContext).getWritableDatabase();
         assertEquals(true, db.isOpen());
 
-       Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+         //Таблица создана?
+        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
 
         assertTrue("Error: This means that the database has not been created correctly",
                 c.moveToFirst());
 
+         // проверка таблицы
         do {
             tableNameHashSet.remove(c.getString(0));
         } while( c.moveToNext() );
@@ -64,6 +52,7 @@ public class TestDb extends AndroidTestCase {
         assertTrue("Error: This means that we were unable to query the database for table information.",
                 c.moveToFirst());
 
+         // Создание HashSet всех имен столбцов которые будем искать
         final HashSet<String> locationColumnHashSet = new HashSet<>();
         locationColumnHashSet.add(WeatherContract.LocationEntry._ID);
         locationColumnHashSet.add(WeatherContract.LocationEntry.COLUMN_CITY_NAME);
@@ -79,7 +68,7 @@ public class TestDb extends AndroidTestCase {
 
         assertTrue("Error: The database doesn't contain all of the required location entry columns",
                 locationColumnHashSet.isEmpty());
-        db.close();
+         db.close();
     }
 
     public void testLocationTable() {
@@ -96,6 +85,7 @@ public class TestDb extends AndroidTestCase {
         WeatherDbHelper dbHelper = new WeatherDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+//        Create weather values
         ContentValues weatherValues = TestUtilities.createWeatherValues(locationRowId);
 
         long weatherRowId = db.insert(WeatherContract.WeatherEntry.TABLE_NAME, null, weatherValues);
@@ -123,7 +113,7 @@ public class TestDb extends AndroidTestCase {
         dbHelper.close();
     }
 
-    public long insertLocation() {
+    private long insertLocation() {
 
         WeatherDbHelper dbHelper = new WeatherDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
